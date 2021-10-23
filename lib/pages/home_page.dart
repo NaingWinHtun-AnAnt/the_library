@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:the_library/bloc/home_bloc.dart';
+import 'package:the_library/blocs/home_bloc.dart';
 import 'package:the_library/data/vos/book_list_vo.dart';
 import 'package:the_library/data/vos/book_vo.dart';
+import 'package:the_library/pages/add_to_shelf_page.dart';
 import 'package:the_library/pages/book_detail_page.dart';
 import 'package:the_library/pages/book_list_by_list_name_page.dart';
 import 'package:the_library/pages/search_page.dart';
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
                     ),
                     children: [
                       SearchBarView(
-                        onTapSearchBarView: () => navigateToSearchPage(context),
+                        onTapSearchBarView: () => _navigateToSearchPage(context),
                       ),
                       SizedBox(
                         height: MARGIN_MEDIUM_2,
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
                         builder:
                             (BuildContext context, myBookList, Widget? child) =>
                                 Visibility(
-                          visible: myBookList!.isNotEmpty,
+                          visible: myBookList?.isNotEmpty ?? false,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: MARGIN_XLARGE_2,
@@ -87,7 +88,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _onTapCarouselItemMenu(BuildContext context, {required BookVO book}) {
+  void _onTapCarouselItemMenu(BuildContext context, {required BookVO? book}) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -95,8 +96,17 @@ class HomePage extends StatelessWidget {
         builder:
             (BuildContext context, void Function(void Function()) setState) =>
                 BookOptionMenuView(
+          onTapAddToShelf: (book) => _navigateToAddToShelfPage(context, book),
           book: book,
         ),
+      ),
+    );
+  }
+
+  void _navigateToAddToShelfPage(BuildContext context, BookVO? book) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => AddToShelfPage(book: book),
       ),
     );
   }
@@ -123,13 +133,13 @@ class HomePage extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => BookDetailPage(
-          book: book,
+          bookPrimaryIsbn13: book.primaryIsbn13 ?? "0",
         ),
       ),
     );
   }
 
-  void navigateToSearchPage(BuildContext context) {
+  void _navigateToSearchPage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => SearchPage(),
@@ -168,8 +178,8 @@ class BookListListView extends StatelessWidget {
 }
 
 class CarouselSliderView extends StatelessWidget {
-  final List<BookVO> myBookList;
-  final Function(BookVO) onTapOptionButton;
+  final List<BookVO>? myBookList;
+  final Function(BookVO?) onTapOptionButton;
 
   CarouselSliderView({
     required this.myBookList,
@@ -185,11 +195,12 @@ class CarouselSliderView extends StatelessWidget {
         enlargeCenterPage: true,
         enableInfiniteScroll: false,
       ),
-      itemCount: myBookList.length,
+      itemCount: myBookList?.length ?? 0,
       itemBuilder: (BuildContext context, int index, int realIndex) =>
           CarouselItemView(
-        book: myBookList[realIndex],
+        book: myBookList?[realIndex],
         onTapOptionButton: (book) => onTapOptionButton(book),
+        key: Key(myBookList?[realIndex].primaryIsbn13 ?? "-"),
       ),
     );
   }
@@ -214,15 +225,15 @@ class BookListSectionView extends StatelessWidget {
           height: MARGIN_MEDIUM_3,
         ),
         TitleAndMoreButtonSectionView(
-          title: mBook.displayName,
-          onTapMoreButton: () =>
-              onTapMoreButton(mBook.listName, mBook.listNameEncoded),
+          title: mBook.displayName ?? "-",
+          onTapMoreButton: () => onTapMoreButton(
+              mBook.listName ?? "-", mBook.listNameEncoded ?? "-"),
         ),
         SizedBox(
           height: MARGIN_MEDIUM_3,
         ),
         HorizontalBookListView(
-          bookList: mBook.books,
+          bookList: mBook.books ?? [],
           onTapBook: (book) => onTapBook(book),
         ),
       ],

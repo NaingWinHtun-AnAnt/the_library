@@ -8,6 +8,7 @@ import 'package:the_library/data/vos/book_review_vo.dart';
 import 'package:the_library/data/vos/book_vo.dart';
 import 'package:the_library/data/vos/buy_link_vo.dart';
 import 'package:the_library/data/vos/isbn_vo.dart';
+import 'package:the_library/data/vos/shelf_vo.dart';
 import 'package:the_library/pages/app_main_page.dart';
 import 'package:the_library/persistence/hive_constants.dart';
 
@@ -22,10 +23,12 @@ void main() async {
   Hive.registerAdapter(BookListVOAdapter());
   Hive.registerAdapter(BookVOAdapter());
   Hive.registerAdapter(BuyLinkVOAdapter());
+  Hive.registerAdapter(ShelfVOAdapter());
 
   await Hive.openBox<BookByListNameVO>(BOX_NAME_BOOK_BY_LIST_NAME_VO);
   await Hive.openBox<BookListResultVO>(BOX_NAME_BOOK_LIST_RESULT_VO);
   await Hive.openBox<BookVO>(BOX_NAME_MY_BOOK);
+  await Hive.openBox<ShelfVO>(BOX_NAME_SHELF_VO);
 
   runApp(MyApp());
 }

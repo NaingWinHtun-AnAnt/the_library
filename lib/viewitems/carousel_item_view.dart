@@ -5,13 +5,15 @@ import 'package:the_library/resources/dimens.dart';
 import 'package:the_library/widgets/book_option_button_view.dart';
 
 class CarouselItemView extends StatelessWidget {
-  final Function(BookVO) onTapOptionButton;
-  final BookVO book;
+  final Function(BookVO?) onTapOptionButton;
+  final BookVO? book;
+  final Key? key;
 
   CarouselItemView({
     required this.onTapOptionButton,
     required this.book,
-  });
+    this.key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class CarouselItemView extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.network(
-              book.bookImage,
+              book?.bookImage ?? "-",
               fit: BoxFit.cover,
             ),
           ),

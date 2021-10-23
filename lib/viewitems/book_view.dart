@@ -28,7 +28,7 @@ class BookView extends StatelessWidget {
                   BOOK_COVER_IMAGE_RADIUS,
                 ),
                 child: Image.network(
-                  book.bookImage,
+                  book.bookImage ?? "-",
                   height: BOOK_IMAGE_HEIGHT,
                   width: BOOK_IMAGE_WIDTH,
                   fit: BoxFit.cover,
@@ -38,11 +38,17 @@ class BookView extends StatelessWidget {
             SizedBox(
               height: MARGIN_SMALL,
             ),
-            BookTextView(
-              text: book.title,
+            GestureDetector(
+              onTap: () => onTapBook(book),
+              child: BookTextView(
+                text: book.title,
+              ),
             ),
-            BookTextView(
-              text: book.author,
+            GestureDetector(
+              onTap: () => onTapBook(book),
+              child: BookTextView(
+                text: book.author,
+              ),
             ),
           ],
         ),

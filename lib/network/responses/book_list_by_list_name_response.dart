@@ -1,31 +1,31 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:the_library/data/vos/book_by_list_name_vo.dart';
+import 'package:the_library/data/vos/book_by_category_vo.dart';
 
 part 'book_list_by_list_name_response.g.dart';
 
 @JsonSerializable()
 class BookListByListNameResponse {
   @JsonKey(name: "status")
-  String status;
+  String? status;
 
   @JsonKey(name: "copyright")
-  String copyright;
+  String? copyright;
 
   @JsonKey(name: "num_results")
-  int num_Results;
+  int? num_Results;
 
   @JsonKey(name: "last_modified")
-  String lastModified;
+  String? lastModified;
 
   @JsonKey(name: "results")
-  List<BookByListNameVO> results;
+  BookByCategoryVO? results;
 
   BookListByListNameResponse({
-    required this.status,
-    required this.copyright,
-    required this.num_Results,
-    required this.lastModified,
-    required this.results,
+    this.status,
+    this.copyright,
+    this.num_Results,
+    this.lastModified,
+    this.results,
   });
 
   factory BookListByListNameResponse.fromJson(Map<String, dynamic> json) =>

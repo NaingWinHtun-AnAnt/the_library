@@ -6,20 +6,22 @@ part of 'access_info_vo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AccessInfoVO _$AccessInfoVOFromJson(Map<String, dynamic> json) {
-  return AccessInfoVO(
-    country: json['country'] as String,
-    viewAbility: json['viewability'] as String,
-    embeddable: json['embeddable'] as bool,
-    publicDomain: json['publicDomain'] as bool,
-    textToSpeechPermission: json['textToSpeechPermission'] as String,
-    epub: EpubVO.fromJson(json['epub'] as Map<String, dynamic>),
-    pdf: PdfVO.fromJson(json['pdf'] as Map<String, dynamic>),
-    webReaderLink: json['webReaderLink'] as String,
-    accessViewStatus: json['accessViewStatus'] as String,
-    quoteSharingAllowed: json['quoteSharingAllowed'] as bool,
-  );
-}
+AccessInfoVO _$AccessInfoVOFromJson(Map<String, dynamic> json) => AccessInfoVO(
+      country: json['country'] as String?,
+      viewAbility: json['viewability'] as String?,
+      embeddable: json['embeddable'] as bool?,
+      publicDomain: json['publicDomain'] as bool?,
+      textToSpeechPermission: json['textToSpeechPermission'] as String?,
+      epub: json['epub'] == null
+          ? null
+          : EpubVO.fromJson(json['epub'] as Map<String, dynamic>),
+      pdf: json['pdf'] == null
+          ? null
+          : PdfVO.fromJson(json['pdf'] as Map<String, dynamic>),
+      webReaderLink: json['webReaderLink'] as String?,
+      accessViewStatus: json['accessViewStatus'] as String?,
+      quoteSharingAllowed: json['quoteSharingAllowed'] as bool?,
+    );
 
 Map<String, dynamic> _$AccessInfoVOToJson(AccessInfoVO instance) =>
     <String, dynamic>{

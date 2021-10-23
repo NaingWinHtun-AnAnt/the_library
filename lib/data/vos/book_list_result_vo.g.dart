@@ -17,12 +17,12 @@ class BookListResultVOAdapter extends TypeAdapter<BookListResultVO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BookListResultVO(
-      bestsellersDate: fields[0] as String,
-      publishedDate: fields[1] as String,
-      publishedDateDescription: fields[2] as String,
-      previousPublishedDate: fields[3] as String,
-      nextPublishedDate: fields[4] as String,
-      lists: (fields[5] as List).cast<BookListVO>(),
+      bestsellersDate: fields[0] as String?,
+      publishedDate: fields[1] as String?,
+      publishedDateDescription: fields[2] as String?,
+      previousPublishedDate: fields[3] as String?,
+      nextPublishedDate: fields[4] as String?,
+      lists: (fields[5] as List?)?.cast<BookListVO>(),
       publishedDateByAndroid: fields[6] as String?,
     );
   }
@@ -62,18 +62,17 @@ class BookListResultVOAdapter extends TypeAdapter<BookListResultVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookListResultVO _$BookListResultVOFromJson(Map<String, dynamic> json) {
-  return BookListResultVO(
-    bestsellersDate: json['bestsellers_date'] as String,
-    publishedDate: json['published_date'] as String,
-    publishedDateDescription: json['published_date_description'] as String,
-    previousPublishedDate: json['previous_published_date'] as String,
-    nextPublishedDate: json['next_published_date'] as String,
-    lists: (json['lists'] as List<dynamic>)
-        .map((e) => BookListVO.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
+BookListResultVO _$BookListResultVOFromJson(Map<String, dynamic> json) =>
+    BookListResultVO(
+      bestsellersDate: json['bestsellers_date'] as String?,
+      publishedDate: json['published_date'] as String?,
+      publishedDateDescription: json['published_date_description'] as String?,
+      previousPublishedDate: json['previous_published_date'] as String?,
+      nextPublishedDate: json['next_published_date'] as String?,
+      lists: (json['lists'] as List<dynamic>?)
+          ?.map((e) => BookListVO.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$BookListResultVOToJson(BookListResultVO instance) =>
     <String, dynamic>{

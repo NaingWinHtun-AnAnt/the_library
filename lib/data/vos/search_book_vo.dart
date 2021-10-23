@@ -32,18 +32,30 @@ class SearchBookVO {
   SearchBookVO? searchInfo;
 
   SearchBookVO({
-    required this.kind,
-    required this.id,
-    required this.eTag,
-    required this.selfLink,
-    required this.volumeInfo,
-    required this.saleInfo,
-    required this.accessInfo,
-    required this.searchInfo,
+    this.kind,
+    this.id,
+    this.eTag,
+    this.selfLink,
+    this.volumeInfo,
+    this.saleInfo,
+    this.accessInfo,
+    this.searchInfo,
   });
 
   factory SearchBookVO.fromJson(Map<String, dynamic> json) =>
       _$SearchBookVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$SearchBookVOToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SearchBookVO &&
+          runtimeType == other.runtimeType &&
+          kind == other.kind &&
+          id == other.id &&
+          eTag == other.eTag;
+
+  @override
+  int get hashCode => kind.hashCode ^ id.hashCode ^ eTag.hashCode;
 }

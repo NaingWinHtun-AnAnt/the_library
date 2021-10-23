@@ -11,9 +11,13 @@ class HomeBloc extends ChangeNotifier {
   List<BookVO>? myBookList;
 
   /// models
-  final LibraryModel _mLibraryModel = LibraryModelImpl();
+  LibraryModel _mLibraryModel = LibraryModelImpl();
 
-  HomeBloc() {
+  HomeBloc({LibraryModel? libraryModel}) {
+    if (libraryModel != null) {
+      _mLibraryModel = libraryModel;
+    }
+
     /// from database
     /// my read book
     _mLibraryModel.getMyBookFromDatabase().listen((value) {
@@ -31,12 +35,12 @@ class HomeBloc extends ChangeNotifier {
   }
 
   ///
-  void onTapBook(BookVO book) {
+  void onTapBook(BookVO? book) {
     _saveBook(book);
   }
 
   /// save user clicked book
-  void _saveBook(BookVO book) {
+  void _saveBook(BookVO? book) {
     _mLibraryModel.saveMyBook(book);
   }
 }

@@ -5,7 +5,7 @@ import 'package:the_library/resources/dimens.dart';
 
 class BookListItemView extends StatelessWidget {
   final BookVO myBook;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
   final Function(BookVO) onTapBook;
 
   BookListItemView({
@@ -34,7 +34,7 @@ class BookListItemView extends StatelessWidget {
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: Image.network(
-                  myBook.bookImage,
+                  myBook.bookImage?? "-",
                   height: LIST_VIEW_ITEM_HEIGHT,
                   fit: BoxFit.cover,
                 ),
@@ -52,7 +52,7 @@ class BookListItemView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          myBook.title,
+                          myBook.title?? "-",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -73,7 +73,7 @@ class BookListItemView extends StatelessWidget {
                         width: MARGIN_LARGE,
                       ),
                       GestureDetector(
-                        onTap: () => onTapOption(),
+                        onTap: () => onTapOption(myBook),
                         child: Icon(
                           Icons.more_horiz_outlined,
                           color: COLOR_GREY,
@@ -88,7 +88,7 @@ class BookListItemView extends StatelessWidget {
                     height: MARGIN_MEDIUM,
                   ),
                   Text(
-                    myBook.author,
+                    myBook.author?? "-",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

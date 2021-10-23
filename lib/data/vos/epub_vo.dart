@@ -5,10 +5,10 @@ part 'epub_vo.g.dart';
 @JsonSerializable()
 class EpubVO {
   @JsonKey(name: "isAvailable")
-  bool isAvailable;
+  bool? isAvailable;
 
   EpubVO({
-    required this.isAvailable,
+    this.isAvailable,
   });
 
   factory EpubVO.fromJson(Map<String, dynamic> json) => _$EpubVOFromJson(json);

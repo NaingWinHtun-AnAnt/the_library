@@ -9,15 +9,15 @@ part 'isbn_vo.g.dart';
 class IsbnVO {
   @HiveField(0)
   @JsonKey(name: "isbn10")
-  String isbn10;
+  String? isbn10;
 
   @HiveField(1)
   @JsonKey(name: "isbn13")
-  String isbn13;
+  String? isbn13;
 
   IsbnVO({
-    required this.isbn10,
-    required this.isbn13,
+    this.isbn10,
+    this.isbn13,
   });
 
   factory IsbnVO.fromJson(Map<String, dynamic> json) => _$IsbnVOFromJson(json);

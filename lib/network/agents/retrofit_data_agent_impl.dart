@@ -24,7 +24,7 @@ class RetrofitDataAgentImpl extends LibraryDataAgent {
 
   /// from nyt
   @override
-  Future<BookListResultVO> getBookList(String publishedDate) {
+  Future<BookListResultVO?>? getBookList(String publishedDate) {
     return _mTheLibraryNYTApi
         .getBookList(API_KEY, publishedDate)
         .asStream()
@@ -33,17 +33,18 @@ class RetrofitDataAgentImpl extends LibraryDataAgent {
   }
 
   @override
-  Future<List<BookByListNameVO>> getBookListByListName(String bookListName) {
+  Future<List<BookByListNameVO>?>? getBookListByListName(
+      String date, String bookListName) {
     return _mTheLibraryNYTApi
-        .getBookListByListName(API_KEY, bookListName)
+        .getBookListByListName(API_KEY, date, bookListName)
         .asStream()
-        .map((event) => event.results)
+        .map((event) => event.results?.books)
         .first;
   }
 
   /// from google
   @override
-  Future<List<SearchBookVO>> searchBook(String searchText) {
+  Future<List<SearchBookVO>?>? searchBook(String searchText) {
     return _mTheLibraryGoogleApi
         .searchBook(searchText)
         .asStream()

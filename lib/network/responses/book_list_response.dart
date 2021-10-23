@@ -6,22 +6,22 @@ part 'book_list_response.g.dart';
 @JsonSerializable()
 class BookListResponse {
   @JsonKey(name: "status")
-  String status;
+  String? status;
 
   @JsonKey(name: "copyright")
-  String copyRight;
+  String? copyRight;
 
   @JsonKey(name: "num_results")
-  int numResults;
+  int? numResults;
 
   @JsonKey(name: "results")
-  BookListResultVO results;
+  BookListResultVO? results;
 
   BookListResponse({
-    required this.status,
-    required this.copyRight,
-    required this.numResults,
-    required this.results,
+    this.status,
+    this.copyRight,
+    this.numResults,
+    this.results,
   });
 
   factory BookListResponse.fromJson(Map<String, dynamic> json) =>

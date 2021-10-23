@@ -6,12 +6,12 @@ part of 'industry_identifier_vo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-IndustryIdentifierVO _$IndustryIdentifierVOFromJson(Map<String, dynamic> json) {
-  return IndustryIdentifierVO(
-    type: json['type'] as String,
-    identifier: json['identifier'] as String,
-  );
-}
+IndustryIdentifierVO _$IndustryIdentifierVOFromJson(
+        Map<String, dynamic> json) =>
+    IndustryIdentifierVO(
+      type: json['type'] as String?,
+      identifier: json['identifier'] as String?,
+    );
 
 Map<String, dynamic> _$IndustryIdentifierVOToJson(
         IndustryIdentifierVO instance) =>

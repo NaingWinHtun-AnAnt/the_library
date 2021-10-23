@@ -17,10 +17,10 @@ class BookReviewVOAdapter extends TypeAdapter<BookReviewVO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BookReviewVO(
-      bookReviewLink: fields[0] as String,
-      firstChapterLink: fields[1] as String,
-      sundayReviewLink: fields[2] as String,
-      articleChapterLink: fields[3] as String,
+      bookReviewLink: fields[0] as String?,
+      firstChapterLink: fields[1] as String?,
+      sundayReviewLink: fields[2] as String?,
+      articleChapterLink: fields[3] as String?,
     );
   }
 
@@ -53,14 +53,12 @@ class BookReviewVOAdapter extends TypeAdapter<BookReviewVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookReviewVO _$BookReviewVOFromJson(Map<String, dynamic> json) {
-  return BookReviewVO(
-    bookReviewLink: json['book_review_link'] as String,
-    firstChapterLink: json['first_chapter_link'] as String,
-    sundayReviewLink: json['sunday_review_link'] as String,
-    articleChapterLink: json['article_chapter_link'] as String,
-  );
-}
+BookReviewVO _$BookReviewVOFromJson(Map<String, dynamic> json) => BookReviewVO(
+      bookReviewLink: json['book_review_link'] as String?,
+      firstChapterLink: json['first_chapter_link'] as String?,
+      sundayReviewLink: json['sunday_review_link'] as String?,
+      articleChapterLink: json['article_chapter_link'] as String?,
+    );
 
 Map<String, dynamic> _$BookReviewVOToJson(BookReviewVO instance) =>
     <String, dynamic>{

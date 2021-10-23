@@ -17,8 +17,8 @@ class BuyLinkVOAdapter extends TypeAdapter<BuyLinkVO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BuyLinkVO(
-      name: fields[0] as String,
-      url: fields[1] as String,
+      name: fields[0] as String?,
+      url: fields[1] as String?,
     );
   }
 
@@ -47,12 +47,10 @@ class BuyLinkVOAdapter extends TypeAdapter<BuyLinkVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BuyLinkVO _$BuyLinkVOFromJson(Map<String, dynamic> json) {
-  return BuyLinkVO(
-    name: json['name'] as String,
-    url: json['url'] as String,
-  );
-}
+BuyLinkVO _$BuyLinkVOFromJson(Map<String, dynamic> json) => BuyLinkVO(
+      name: json['name'] as String?,
+      url: json['url'] as String?,
+    );
 
 Map<String, dynamic> _$BuyLinkVOToJson(BuyLinkVO instance) => <String, dynamic>{
       'name': instance.name,

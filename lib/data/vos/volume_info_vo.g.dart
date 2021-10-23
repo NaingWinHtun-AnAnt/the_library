@@ -6,39 +6,38 @@ part of 'volume_info_vo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VolumeInfoVO _$VolumeInfoVOFromJson(Map<String, dynamic> json) {
-  return VolumeInfoVO(
-    title: json['title'] as String,
-    subtitle: json['subtitle'] as String?,
-    authors:
-        (json['authors'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    publisher: json['publisher'] as String?,
-    publishedDate: json['publishedDate'] as String?,
-    description: json['description'] as String?,
-    industryIdentifiers: (json['industryIdentifiers'] as List<dynamic>?)
-        ?.map((e) => IndustryIdentifierVO.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    readingModes: json['readingModes'] == null
-        ? null
-        : ReadingModeVO.fromJson(json['readingModes'] as Map<String, dynamic>),
-    pageCount: json['pageCount'] as int?,
-    printType: json['printType'] as String?,
-    maturityRating: json['maturityRating'] as String?,
-    allowAnonLogging: json['allowAnonLogging'] as bool?,
-    contentVersion: json['contentVersion'] as String?,
-    panelizationSummary: json['panelizationSummary'] == null
-        ? null
-        : PanelizationSummaryVO.fromJson(
-            json['panelizationSummary'] as Map<String, dynamic>),
-    imageLinks: json['imageLinks'] == null
-        ? null
-        : ImageLinkVO.fromJson(json['imageLinks'] as Map<String, dynamic>),
-    language: json['language'] as String?,
-    previewLink: json['previewLink'] as String?,
-    infoLink: json['infoLink'] as String?,
-    canonicalVolumeLink: json['canonicalVolumeLink'] as String?,
-  );
-}
+VolumeInfoVO _$VolumeInfoVOFromJson(Map<String, dynamic> json) => VolumeInfoVO(
+      title: json['title'] as String?,
+      subtitle: json['subtitle'] as String?,
+      authors:
+          (json['authors'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      publisher: json['publisher'] as String?,
+      publishedDate: json['publishedDate'] as String?,
+      description: json['description'] as String?,
+      industryIdentifiers: (json['industryIdentifiers'] as List<dynamic>?)
+          ?.map((e) => IndustryIdentifierVO.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      readingModes: json['readingModes'] == null
+          ? null
+          : ReadingModeVO.fromJson(
+              json['readingModes'] as Map<String, dynamic>),
+      pageCount: json['pageCount'] as int?,
+      printType: json['printType'] as String?,
+      maturityRating: json['maturityRating'] as String?,
+      allowAnonLogging: json['allowAnonLogging'] as bool?,
+      contentVersion: json['contentVersion'] as String?,
+      panelizationSummary: json['panelizationSummary'] == null
+          ? null
+          : PanelizationSummaryVO.fromJson(
+              json['panelizationSummary'] as Map<String, dynamic>),
+      imageLinks: json['imageLinks'] == null
+          ? null
+          : ImageLinkVO.fromJson(json['imageLinks'] as Map<String, dynamic>),
+      language: json['language'] as String?,
+      previewLink: json['previewLink'] as String?,
+      infoLink: json['infoLink'] as String?,
+      canonicalVolumeLink: json['canonicalVolumeLink'] as String?,
+    );
 
 Map<String, dynamic> _$VolumeInfoVOToJson(VolumeInfoVO instance) =>
     <String, dynamic>{

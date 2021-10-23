@@ -5,10 +5,10 @@ part 'search_info_vo.g.dart';
 @JsonSerializable()
 class SearchInfoVO {
   @JsonKey(name: "textSnippet")
-  String textSnippet;
+  String? textSnippet;
 
   SearchInfoVO({
-    required this.textSnippet,
+    this.textSnippet,
   });
 
   factory SearchInfoVO.fromJson(Map<String, dynamic> json) =>

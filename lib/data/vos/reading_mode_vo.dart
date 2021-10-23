@@ -5,14 +5,14 @@ part 'reading_mode_vo.g.dart';
 @JsonSerializable()
 class ReadingModeVO {
   @JsonKey(name: "text")
-  bool text;
+  bool? text;
 
   @JsonKey(name: "image")
-  bool image;
+  bool? image;
 
   ReadingModeVO({
-    required this.text,
-    required this.image,
+    this.text,
+    this.image,
   });
 
   factory ReadingModeVO.fromJson(Map<String, dynamic> json) =>

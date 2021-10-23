@@ -4,10 +4,10 @@ import 'package:the_library/data/vos/search_book_vo.dart';
 
 abstract class LibraryDataAgent {
   /// from nyt
-  Future<BookListResultVO> getBookList(String publishedDate);
+  Future<BookListResultVO?>? getBookList(String publishedDate);
 
-  Future<List<BookByListNameVO>> getBookListByListName(String bookListName);
+  Future<List<BookByListNameVO>?>? getBookListByListName(String date,String bookListName);
 
   /// from google
-  Future<List<SearchBookVO>> searchBook(String searchText);
+  Future<List<SearchBookVO>?>? searchBook(String searchText);
 }

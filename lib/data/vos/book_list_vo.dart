@@ -5,7 +5,7 @@ import 'package:the_library/persistence/hive_constants.dart';
 
 part 'book_list_vo.g.dart';
 
-@HiveType(typeId: HIVE_TYPE_ID_BOOK_LIST_VO,adapterName: "BookListVOAdapter")
+@HiveType(typeId: HIVE_TYPE_ID_BOOK_LIST_VO, adapterName: "BookListVOAdapter")
 @JsonSerializable()
 class BookListVO {
   @HiveField(0)
@@ -14,19 +14,19 @@ class BookListVO {
 
   @HiveField(1)
   @JsonKey(name: "list_name")
-  String listName;
+  String? listName;
 
   @HiveField(2)
   @JsonKey(name: "list_name_encoded")
-  String listNameEncoded;
+  String? listNameEncoded;
 
   @HiveField(3)
   @JsonKey(name: "display_name")
-  String displayName;
+  String? displayName;
 
   @HiveField(4)
   @JsonKey(name: "updated")
-  String updated;
+  String? updated;
 
   @HiveField(5)
   @JsonKey(name: "list_image")
@@ -42,22 +42,33 @@ class BookListVO {
 
   @HiveField(8)
   @JsonKey(name: "books")
-  List<BookVO> books;
+  List<BookVO>? books;
 
   BookListVO({
     required this.listId,
-    required this.listName,
-    required this.listNameEncoded,
-    required this.displayName,
-    required this.updated,
-    required this.listImage,
-    required this.listImageWidth,
-    required this.listImageHeight,
-    required this.books,
+    this.listName,
+    this.listNameEncoded,
+    this.displayName,
+    this.updated,
+    this.listImage,
+    this.listImageWidth,
+    this.listImageHeight,
+    this.books,
   });
 
   factory BookListVO.fromJson(Map<String, dynamic> json) =>
       _$BookListVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$BookListVOToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BookListVO &&
+          runtimeType == other.runtimeType &&
+          listId == other.listId &&
+          listName == other.listName;
+
+  @override
+  int get hashCode => listId.hashCode ^ listName.hashCode;
 }

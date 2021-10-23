@@ -8,7 +8,7 @@ import 'package:the_library/widgets/book_type_text_view.dart';
 
 class ThreeColumnBookView extends StatelessWidget {
   final BookVO myBook;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
   final Function(BookVO) onTapBook;
 
   ThreeColumnBookView({
@@ -28,7 +28,7 @@ class ThreeColumnBookView extends StatelessWidget {
           children: [
             ImageAndOptionSectionView(
               myBook: myBook,
-              onTapOption: () => onTapOption(),
+              onTapOption: (book) => onTapOption(book),
             ),
             SizedBox(
               height: MARGIN_SMALL,
@@ -46,7 +46,7 @@ class ThreeColumnBookView extends StatelessWidget {
 
 class ImageAndOptionSectionView extends StatelessWidget {
   final BookVO myBook;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
 
   ImageAndOptionSectionView({
     required this.myBook,
@@ -66,7 +66,7 @@ class ImageAndOptionSectionView extends StatelessWidget {
                 BOOK_COVER_IMAGE_RADIUS,
               ),
               child: Image.network(
-                myBook.bookImage,
+                myBook.bookImage ?? "-",
                 width: BOOK_IMAGE_WIDTH,
                 fit: BoxFit.cover,
               ),
@@ -74,7 +74,7 @@ class ImageAndOptionSectionView extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () => onTapOption(),
+                onTap: () => onTapOption(myBook),
                 child: Container(
                   margin: EdgeInsets.all(
                     MARGIN_MEDIUM,
@@ -82,6 +82,7 @@ class ImageAndOptionSectionView extends StatelessWidget {
                   child: Icon(
                     Icons.more_horiz_outlined,
                     color: COLOR_WHITE,
+                    key: Key("BOOK_OPTION"),
                   ),
                 ),
               ),

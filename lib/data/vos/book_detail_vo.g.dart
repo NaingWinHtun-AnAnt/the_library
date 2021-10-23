@@ -17,16 +17,16 @@ class BookDetailVOAdapter extends TypeAdapter<BookDetailVO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BookDetailVO(
-      title: fields[0] as String,
-      description: fields[1] as String,
-      contributor: fields[2] as String,
-      author: fields[3] as String,
-      contributorNote: fields[4] as String,
-      price: fields[5] as String,
-      ageGroup: fields[6] as String,
-      publisher: fields[7] as String,
-      primaryIsbn13: fields[8] as String,
-      primaryIsbn10: fields[9] as String,
+      title: fields[0] as String?,
+      description: fields[1] as String?,
+      contributor: fields[2] as String?,
+      author: fields[3] as String?,
+      contributorNote: fields[4] as String?,
+      price: fields[5] as String?,
+      ageGroup: fields[6] as String?,
+      publisher: fields[7] as String?,
+      primaryIsbn13: fields[8] as String?,
+      primaryIsbn10: fields[9] as String?,
     );
   }
 
@@ -71,20 +71,18 @@ class BookDetailVOAdapter extends TypeAdapter<BookDetailVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookDetailVO _$BookDetailVOFromJson(Map<String, dynamic> json) {
-  return BookDetailVO(
-    title: json['title'] as String,
-    description: json['description'] as String,
-    contributor: json['contributor'] as String,
-    author: json['author'] as String,
-    contributorNote: json['contributor_note'] as String,
-    price: json['price'] as String,
-    ageGroup: json['age_group'] as String,
-    publisher: json['publisher'] as String,
-    primaryIsbn13: json['primary_isbn13'] as String,
-    primaryIsbn10: json['primary_isbn10'] as String,
-  );
-}
+BookDetailVO _$BookDetailVOFromJson(Map<String, dynamic> json) => BookDetailVO(
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      contributor: json['contributor'] as String?,
+      author: json['author'] as String?,
+      contributorNote: json['contributor_note'] as String?,
+      price: json['price'] as String?,
+      ageGroup: json['age_group'] as String?,
+      publisher: json['publisher'] as String?,
+      primaryIsbn13: json['primary_isbn13'] as String?,
+      primaryIsbn10: json['primary_isbn10'] as String?,
+    );
 
 Map<String, dynamic> _$BookDetailVOToJson(BookDetailVO instance) =>
     <String, dynamic>{

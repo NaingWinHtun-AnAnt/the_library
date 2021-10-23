@@ -23,7 +23,8 @@ class SearchResultView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              searchBook.volumeInfo!.imageLinks!.thumbnail,
+              searchBook.volumeInfo?.imageLinks?.thumbnail ??
+                  "https://media.istockphoto.com/videos/splash-element-object-background-stock-video-video-id1184050807?s=640x640",
               width: SEARCH_RESULT_IMAGE_WIDTH,
               height: SEARCH_RESULT_IMAGE_HEIGHT,
               fit: BoxFit.cover,
@@ -36,7 +37,7 @@ class SearchResultView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    searchBook.volumeInfo!.title,
+                    searchBook.volumeInfo?.title ?? "-",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(

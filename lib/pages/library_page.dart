@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:the_library/bloc/library_bloc.dart';
+import 'package:the_library/blocs/library_bloc.dart';
 import 'package:the_library/data/vos/book_vo.dart';
+import 'package:the_library/pages/add_to_shelf_page.dart';
 import 'package:the_library/pages/book_detail_page.dart';
 import 'package:the_library/pages/create_new_shelf_page.dart';
 import 'package:the_library/pages/search_page.dart';
 import 'package:the_library/pages/shelf_page.dart';
 import 'package:the_library/resources/dimens.dart';
 import 'package:the_library/resources/strings.dart';
-import 'package:the_library/viewitems/shelf_view.dart';
 import 'package:the_library/widgets/book_list_section_view.dart';
+import 'package:the_library/widgets/book_option_menu_view.dart';
 import 'package:the_library/widgets/dual_teb_section_view.dart';
 import 'package:the_library/widgets/loading_view.dart';
 import 'package:the_library/widgets/search_bar_view.dart';
+import 'package:the_library/widgets/shelf_list_section_view.dart';
 import 'package:the_library/widgets/sort_option_section_view.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -21,9 +23,6 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
-  int selectedSortValue = 1;
-  BookListLayout _bookListLayout = BookListLayout.THREE_COLUMN_GRID_VIEW;
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -65,23 +64,63 @@ class _LibraryPageState extends State<LibraryPage> {
                           SingleChildScrollView(
                         child: myBookList == null
                             ? LoadingView()
-                            : BookListSectionView(
-                                myBookList: myBookList,
-                                onTapSortButton: () =>
-                                    _onTapSortButton(context),
-                                onTapGridButton: (bookListLayout) =>
-                                    _onTapLayoutChangeButton(bookListLayout),
-                                onTapOption: () => _onTapBookItemMenu(context),
-                                onTapBook: (book) =>
-                                    _navigateToBookDetailPage(context, book),
-                                bookLayout: _bookListLayout,
+                            : Selector<LibraryBloc, BookListLayout>(
+                                selector:
+                                    (BuildContext context, LibraryBloc bloc) =>
+                                        bloc.bookListLayout,
+                                builder: (BuildContext context, bookListLayout,
+                                        Widget? child) =>
+                                    Selector<LibraryBloc, BookSortOption>(
+                                  selector: (BuildContext context,
+                                          LibraryBloc bloc) =>
+                                      bloc.selectedSortValue,
+                                  builder: (BuildContext context, sortValue,
+                                          Widget? child) =>
+                                      BookListSectionView(
+                                    myBookList: myBookList,
+                                    onTapSortButton: () => _onTapSortButton(
+                                      context,
+                                      SortOptionSectionView(
+                                        selectedSortValue: sortValue,
+                                        onTapSortItem: (value) =>
+                                            _onTapSortOption(
+                                          value,
+                                          context,
+                                        ),
+                                      ),
+                                    ),
+                                    onTapGridButton: (bookListLayout) =>
+                                        _onTapLayoutChangeButton(
+                                            context, bookListLayout),
+                                    onTapOption: (book) =>
+                                        _onTapBookItemMenu(context, book),
+                                    onTapBook: (book) =>
+                                        _navigateToBookDetailPage(
+                                            context, book),
+                                    bookLayout: bookListLayout,
+                                  ),
+                                ),
                               ),
                       ),
                     ),
-                    ShelvesListSectionView(
-                      onTapShelf: () => _navigateToShelfPage(context),
-                      onTapCreateNew: () =>
-                          _navigateToCreateNewShelfPage(context),
+                    // Selector<LibraryBloc, List<ShelfVO>?>(
+                    //   selector: (BuildContext context, LibraryBloc bloc) =>
+                    //       bloc.myShelfList,
+                    //   builder:
+                    //       (BuildContext context, shelfList, Widget? child) =>
+                    //           ,
+                    // ),
+                    Consumer<LibraryBloc>(
+                      builder: (BuildContext context, LibraryBloc bloc,
+                          Widget? child) {
+                        return ShelfListSectionView(
+                          shelfList: bloc.myShelfList,
+                          onTapShelf: (shelfId) =>
+                              _navigateToShelfPage(context, shelfId),
+                          onTapCreateNew: () =>
+                              _navigateToCreateNewShelfPage(context),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -93,48 +132,53 @@ class _LibraryPageState extends State<LibraryPage> {
     );
   }
 
-  void _onTapLayoutChangeButton(BookListLayout bookListLayout) {
-    setState(() {
-      _bookListLayout = bookListLayout;
-    });
+  void _onTapLayoutChangeButton(
+      BuildContext context, BookListLayout bookListLayout) {
+    final LibraryBloc bloc = Provider.of<LibraryBloc>(context, listen: false);
+    bloc.onTapLayoutChangeButton(bookListLayout);
   }
 
-  void _onTapSortButton(BuildContext context) {
+  void _onTapSortButton(BuildContext context, Widget bottomSheetLayout) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
         builder:
             (BuildContext context, void Function(void Function()) setState) =>
-                SortOptionSectionView(
-          selectedSortValue: selectedSortValue,
-          onTapSortItem: (value) => onTapSortOption(setState, value, context),
-        ),
+                bottomSheetLayout,
       ),
     );
   }
 
-  void _onTapBookItemMenu(BuildContext context) {
+  void _onTapBookItemMenu(BuildContext context, BookVO book) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
         builder:
             (BuildContext context, void Function(void Function()) setState) =>
-                // BookOptionMenuView(),
-                Container(),
+                BookOptionMenuView(
+          onTapAddToShelf: (book) => _navigateToAddToShelfPage(context, book),
+          book: book,
+        ),
       ),
     );
   }
 
-  void onTapSortOption(
-    void Function(void Function()) setState,
-    int value,
+  void _onTapSortOption(
+    BookSortOption bookSortOption,
     BuildContext context,
   ) {
-    setState(() {
-      selectedSortValue = value;
-    });
+    final LibraryBloc bloc = Provider.of<LibraryBloc>(context, listen: false);
+    bloc.onTapSortButton(bookSortOption);
     Navigator.of(context).pop();
+  }
+
+  void _navigateToAddToShelfPage(BuildContext context, BookVO? book) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => AddToShelfPage(book: book),
+      ),
+    );
   }
 
   void _navigateToSearchPage(BuildContext context) {
@@ -145,10 +189,12 @@ class _LibraryPageState extends State<LibraryPage> {
     );
   }
 
-  void _navigateToShelfPage(BuildContext context) {
+  void _navigateToShelfPage(BuildContext context, String shelfId) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => ShelfPage(),
+        builder: (BuildContext context) => ShelfPage(
+          shelfId: shelfId,
+        ),
       ),
     );
   }
@@ -165,54 +211,9 @@ class _LibraryPageState extends State<LibraryPage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => BookDetailPage(
-          book: book,
+          bookPrimaryIsbn13: book.primaryIsbn13 ?? "0",
         ),
       ),
-    );
-  }
-}
-
-class ShelvesListSectionView extends StatelessWidget {
-  final Function onTapShelf;
-  final Function onTapCreateNew;
-
-  ShelvesListSectionView({
-    required this.onTapShelf,
-    required this.onTapCreateNew,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.only(
-            left: MARGIN_LARGE,
-          ),
-          child: ListView.builder(
-            itemCount: 10,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(
-              top: MARGIN_MEDIUM_2,
-            ),
-            itemBuilder: (BuildContext context, int index) => ShelfView(
-              onTapShelf: () => onTapShelf(),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: ElevatedButton.icon(
-            onPressed: () => onTapCreateNew(),
-            icon: Icon(Icons.edit_outlined),
-            label: Text(CREATE_NEW),
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            )),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -5,14 +5,14 @@ part 'panelization_summary_vo.g.dart';
 @JsonSerializable()
 class PanelizationSummaryVO {
   @JsonKey(name: "containsEpubBubbles")
-  bool containsEpubBubbles;
+  bool? containsEpubBubbles;
 
   @JsonKey(name: "containsImageBubbles")
-  bool containsImageBubbles;
+  bool? containsImageBubbles;
 
   PanelizationSummaryVO({
-    required this.containsEpubBubbles,
-    required this.containsImageBubbles,
+    this.containsEpubBubbles,
+    this.containsImageBubbles,
   });
 
   factory PanelizationSummaryVO.fromJson(Map<String, dynamic> json) =>

@@ -18,14 +18,14 @@ class BookListVOAdapter extends TypeAdapter<BookListVO> {
     };
     return BookListVO(
       listId: fields[0] as int,
-      listName: fields[1] as String,
-      listNameEncoded: fields[2] as String,
-      displayName: fields[3] as String,
-      updated: fields[4] as String,
+      listName: fields[1] as String?,
+      listNameEncoded: fields[2] as String?,
+      displayName: fields[3] as String?,
+      updated: fields[4] as String?,
       listImage: fields[5] as String?,
       listImageWidth: fields[6] as String?,
       listImageHeight: fields[7] as String?,
-      books: (fields[8] as List).cast<BookVO>(),
+      books: (fields[8] as List?)?.cast<BookVO>(),
     );
   }
 
@@ -68,21 +68,19 @@ class BookListVOAdapter extends TypeAdapter<BookListVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookListVO _$BookListVOFromJson(Map<String, dynamic> json) {
-  return BookListVO(
-    listId: json['list_id'] as int,
-    listName: json['list_name'] as String,
-    listNameEncoded: json['list_name_encoded'] as String,
-    displayName: json['display_name'] as String,
-    updated: json['updated'] as String,
-    listImage: json['list_image'] as String?,
-    listImageWidth: json['list_image_width'] as String?,
-    listImageHeight: json['list_image_height'] as String?,
-    books: (json['books'] as List<dynamic>)
-        .map((e) => BookVO.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
+BookListVO _$BookListVOFromJson(Map<String, dynamic> json) => BookListVO(
+      listId: json['list_id'] as int,
+      listName: json['list_name'] as String?,
+      listNameEncoded: json['list_name_encoded'] as String?,
+      displayName: json['display_name'] as String?,
+      updated: json['updated'] as String?,
+      listImage: json['list_image'] as String?,
+      listImageWidth: json['list_image_width'] as String?,
+      listImageHeight: json['list_image_height'] as String?,
+      books: (json['books'] as List<dynamic>?)
+          ?.map((e) => BookVO.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$BookListVOToJson(BookListVO instance) =>
     <String, dynamic>{

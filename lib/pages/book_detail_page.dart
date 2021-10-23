@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:the_library/blocs/book_detail_bloc.dart';
 import 'package:the_library/data/vos/book_vo.dart';
 import 'package:the_library/pages/book_list_by_list_name_page.dart';
 import 'package:the_library/pages/search_page.dart';
@@ -6,144 +8,137 @@ import 'package:the_library/resources/colors.dart';
 import 'package:the_library/resources/dimens.dart';
 import 'package:the_library/widgets/action_button_view.dart';
 import 'package:the_library/widgets/horizontal_book_list_view.dart';
+import 'package:the_library/widgets/loading_view.dart';
 import 'package:the_library/widgets/similar_book_view.dart';
 import 'package:the_library/widgets/title_and_more_button_section_view.dart';
 
-class BookDetailPage extends StatefulWidget {
-  final BookVO book;
+class BookDetailPage extends StatelessWidget {
+  final String bookPrimaryIsbn13;
 
   BookDetailPage({
-    required this.book,
+    required this.bookPrimaryIsbn13,
   });
 
   @override
-  State<BookDetailPage> createState() => _BookDetailPageState();
-}
-
-class _BookDetailPageState extends State<BookDetailPage> {
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: ListView(
-          padding: EdgeInsets.only(
-            bottom: MARGIN_MEDIUM_3,
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => BookDetailBloc(bookPrimaryIsbn13),
+      child: SafeArea(
+        child: Scaffold(
+          body: Selector<BookDetailBloc, BookVO?>(
+            selector: (BuildContext context, BookDetailBloc bloc) => bloc.book,
+            builder: (BuildContext context, book, Widget? child) => book == null
+                ? LoadingView()
+                : ListView(
+                    padding: EdgeInsets.only(
+                      bottom: MARGIN_MEDIUM_3,
+                    ),
+                    children: [
+                      AppButtonSectionView(
+                        onTapBack: () => Navigator.of(context).pop(),
+                        onTapSearch: () => _navigateToSearchPage(context),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_3,
+                        ),
+                        child: BookImageAndInfoView(
+                          book: book,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_3,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_3,
+                        ),
+                        child: BookDataView(),
+                      ),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_3,
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: MARGIN_MEDIUM_3,
+                          ),
+                          child: ButtonSectionView(
+                            price: book.price,
+                          )),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_3,
+                        ),
+                        child: Divider(
+                          color: COLOR_GREY,
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: MARGIN_MEDIUM_2,
+                      // ),
+                      // Container(
+                      //     margin: EdgeInsets.symmetric(
+                      //       horizontal: MARGIN_MEDIUM_3,
+                      //     ),
+                      //     child: BundleSectionView(
+                      //       onTapBook: (book) => _navigateToBookDetailPage(context, book),
+                      //     )),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      SimilarBookSectionView(
+                        onTapBook: () {},
+                        onTapMoreButton: () =>
+                            _navigateToBookListByListNamePage(context),
+                      ),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      AboutSectionView(
+                        title: "About this ebook",
+                      ),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      RatingSectionView(),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_3,
+                        ),
+                        child: ReviewListView(),
+                      ),
+                      AboutSectionView(
+                        title: "About the Author",
+                      ),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_3,
+                        ),
+                        child: Divider(
+                          color: COLOR_GREY,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MARGIN_MEDIUM_2,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_3,
+                        ),
+                        child: PolicySectionView(),
+                      ),
+                    ],
+                  ),
           ),
-          children: [
-            AppButtonSectionView(
-              onTapBack: () => Navigator.of(context).pop(),
-              onTapSearch: () => _navigateToSearchPage(context),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_3,
-              ),
-              child: BookImageAndInfoView(
-                book: widget.book,
-              ),
-            ),
-            SizedBox(
-              height: MARGIN_MEDIUM_3,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_3,
-              ),
-              child: BookDataView(),
-            ),
-            SizedBox(
-              height: MARGIN_MEDIUM_3,
-            ),
-            Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: MARGIN_MEDIUM_3,
-                ),
-                child: ButtonSectionView(
-                  price: widget.book.price,
-                )),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_3,
-              ),
-              child: Divider(
-                color: COLOR_GREY,
-              ),
-            ),
-            // SizedBox(
-            //   height: MARGIN_MEDIUM_2,
-            // ),
-            // Container(
-            //     margin: EdgeInsets.symmetric(
-            //       horizontal: MARGIN_MEDIUM_3,
-            //     ),
-            //     child: BundleSectionView(
-            //       onTapBook: (book) => _navigateToBookDetailPage(context, book),
-            //     )),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            SimilarBookSectionView(
-              onTapBook: () {
-                //_navigateToBookDetailPage(context);
-              },
-              onTapMoreButton: () => _navigateToBookListByListNamePage(context),
-            ),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            AboutSectionView(
-              title: "About this ebook",
-            ),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            RatingSectionView(),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_3,
-              ),
-              child: ReviewListView(),
-            ),
-            AboutSectionView(
-              title: "About the Author",
-            ),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_3,
-              ),
-              child: Divider(
-                color: COLOR_GREY,
-              ),
-            ),
-            SizedBox(
-              height: MARGIN_MEDIUM_2,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_3,
-              ),
-              child: PolicySectionView(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _navigateToBookDetailPage(BuildContext context, BookVO book) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => BookDetailPage(
-          book: book,
         ),
       ),
     );
@@ -531,10 +526,10 @@ class BundleSectionView extends StatelessWidget {
 }
 
 class ButtonSectionView extends StatelessWidget {
-  final String price;
+  final String? price;
 
   ButtonSectionView({
-    required this.price,
+    this.price,
   });
 
   @override
@@ -553,7 +548,7 @@ class ButtonSectionView extends StatelessWidget {
         ),
         Expanded(
           child: ActionButtonView(
-            text: " Buy ",
+            text: "${price ?? ""} Buy ",
             textColor: COLOR_GREY_3,
             onTapAction: () {},
           ),
@@ -681,7 +676,7 @@ class BookImageAndInfoView extends StatelessWidget {
             IMAGE_RADIUS,
           ),
           child: Image.network(
-            book.bookImage,
+            book.bookImage ?? "-",
             height: BOOK_DETAIL_IMAGE_HEIGHT,
             width: BOOK_DETAIL_IMAGE_WIDTH,
             fit: BoxFit.cover,
@@ -712,7 +707,7 @@ class BookInfoSectionView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            book.title,
+            book.title ?? "-",
             style: TextStyle(
               fontSize: TEXT_HEADING_1X,
               fontWeight: FontWeight.bold,
@@ -778,6 +773,7 @@ class AppButtonSectionView extends StatelessWidget {
           IconView(
             icon: Icons.arrow_back_ios,
             onTapIcon: () => onTapBack(),
+            key: Key("BACK"),
           ),
           Spacer(),
           IconView(
@@ -807,11 +803,13 @@ class AppButtonSectionView extends StatelessWidget {
 class IconView extends StatelessWidget {
   final IconData icon;
   final Function onTapIcon;
+  final Key? key;
 
   IconView({
     required this.icon,
     required this.onTapIcon,
-  });
+    this.key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

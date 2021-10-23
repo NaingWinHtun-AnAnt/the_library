@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:the_library/bloc/book_list_by_list_name_bloc.dart';
+import 'package:the_library/blocs/book_list_by_list_name_bloc.dart';
 import 'package:the_library/data/vos/book_by_list_name_vo.dart';
 import 'package:the_library/resources/colors.dart';
 import 'package:the_library/resources/dimens.dart';
 import 'package:the_library/viewitems/book_list_by_list_name_view.dart';
 import 'package:the_library/widgets/loading_view.dart';
 
-class BookListByListNamePage extends StatefulWidget {
+class BookListByListNamePage extends StatelessWidget {
   final String listName;
   final String listNameEncoded;
 
@@ -17,15 +17,9 @@ class BookListByListNamePage extends StatefulWidget {
   });
 
   @override
-  State<BookListByListNamePage> createState() => _BookListByListNamePageState();
-}
-
-class _BookListByListNamePageState extends State<BookListByListNamePage> {
-  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) =>
-          BookListByListNameBloc(widget.listNameEncoded),
+      create: (BuildContext context) => BookListByListNameBloc(listNameEncoded),
       child: Scaffold(
         body: SafeArea(
           child: Selector<BookListByListNameBloc, List<BookByListNameVO>?>(
@@ -40,7 +34,7 @@ class _BookListByListNamePageState extends State<BookListByListNamePage> {
                         ),
                         children: [
                           TitleSectionView(
-                            title: widget.listName,
+                            title: listName,
                             onTapBackButton: () => _onTapBackButton(context),
                           ),
                           SizedBox(

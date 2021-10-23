@@ -9,15 +9,15 @@ part 'buy_link_vo.g.dart';
 class BuyLinkVO {
   @HiveField(0)
   @JsonKey(name: "name")
-  String name;
+  String? name;
 
   @HiveField(1)
   @JsonKey(name: "url")
-  String url;
+  String? url;
 
   BuyLinkVO({
-    required this.name,
-    required this.url,
+    this.name,
+    this.url,
   });
 
   factory BuyLinkVO.fromJson(Map<String, dynamic> json) =>

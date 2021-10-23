@@ -5,14 +5,14 @@ part 'image_link_vo.g.dart';
 @JsonSerializable()
 class ImageLinkVO {
   @JsonKey(name: "smallThumbnail")
-  String smallThumbnail;
+  String? smallThumbnail;
 
   @JsonKey(name: "thumbnail")
-  String thumbnail;
+  String? thumbnail;
 
   ImageLinkVO({
-    required this.smallThumbnail,
-    required this.thumbnail,
+    this.smallThumbnail,
+    this.thumbnail,
   });
 
   factory ImageLinkVO.fromJson(Map<String, dynamic> json) =>

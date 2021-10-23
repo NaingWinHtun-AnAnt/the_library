@@ -10,55 +10,55 @@ part 'book_detail_vo.g.dart';
 class BookDetailVO {
   @HiveField(0)
   @JsonKey(name: "title")
-  String title;
+  String? title;
 
   @HiveField(1)
   @JsonKey(name: "description")
-  String description;
+  String? description;
 
   @HiveField(2)
   @JsonKey(name: "contributor")
-  String contributor;
+  String? contributor;
 
   @HiveField(3)
   @JsonKey(name: "author")
-  String author;
+  String? author;
 
   @HiveField(4)
   @JsonKey(name: "contributor_note")
-  String contributorNote;
+  String? contributorNote;
 
   @HiveField(5)
   @JsonKey(name: "price")
-  String price;
+  String? price;
 
   @HiveField(6)
   @JsonKey(name: "age_group")
-  String ageGroup;
+  String? ageGroup;
 
   @HiveField(7)
   @JsonKey(name: "publisher")
-  String publisher;
+  String? publisher;
 
   @HiveField(8)
   @JsonKey(name: "primary_isbn13")
-  String primaryIsbn13;
+  String? primaryIsbn13;
 
   @HiveField(9)
   @JsonKey(name: "primary_isbn10")
-  String primaryIsbn10;
+  String? primaryIsbn10;
 
   BookDetailVO({
-    required this.title,
-    required this.description,
-    required this.contributor,
-    required this.author,
-    required this.contributorNote,
-    required this.price,
-    required this.ageGroup,
-    required this.publisher,
-    required this.primaryIsbn13,
-    required this.primaryIsbn10,
+    this.title,
+    this.description,
+    this.contributor,
+    this.author,
+    this.contributorNote,
+    this.price,
+    this.ageGroup,
+    this.publisher,
+    this.primaryIsbn13,
+    this.primaryIsbn10,
   });
 
   factory BookDetailVO.fromJson(Map<String, dynamic> json) =>

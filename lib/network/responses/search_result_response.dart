@@ -6,18 +6,18 @@ part 'search_result_response.g.dart';
 @JsonSerializable()
 class SearchResultResponse {
   @JsonKey(name: "kind")
-  String kind;
+  String? kind;
 
   @JsonKey(name: "totalItems")
-  int totalItems;
+  int? totalItems;
 
   @JsonKey(name: "items")
-  List<SearchBookVO> items;
+  List<SearchBookVO>? items;
 
   SearchResultResponse({
-    required this.kind,
-    required this.totalItems,
-    required this.items,
+    this.kind,
+    this.totalItems,
+    this.items,
   });
 
   factory SearchResultResponse.fromJson(Map<String, dynamic> json) =>

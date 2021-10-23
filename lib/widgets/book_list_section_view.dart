@@ -11,7 +11,7 @@ class BookListSectionView extends StatelessWidget {
   final List<BookVO> myBookList;
   final Function onTapSortButton;
   final Function(BookListLayout) onTapGridButton;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
   final Function(BookVO) onTapBook;
   final BookListLayout bookLayout;
 
@@ -57,18 +57,18 @@ class BookListSectionView extends StatelessWidget {
           child: bookLayout == BookListLayout.LIST_VIEW
               ? BookListView(
                   myBookList: myBookList,
-                  onTapOption: () => onTapOption(),
+                  onTapOption: (book) => onTapOption(book),
                   onTapBook: (book) => onTapBook(book),
                 )
               : bookLayout == BookListLayout.THREE_COLUMN_GRID_VIEW
                   ? ThreeColumnGridView(
                       myBookList: myBookList,
-                      onTapOption: () => onTapOption(),
+                      onTapOption: (book) => onTapOption(book),
                       onTapBook: (book) => onTapBook(book),
                     )
                   : TwoColumnGridView(
                       myBookList: myBookList,
-                      onTapOption: () => onTapOption(),
+                      onTapOption: (book) => onTapOption(book),
                       onTapBook: (book) => onTapBook(book),
                     ),
         ),
@@ -107,7 +107,7 @@ class ThreeColumnGridView extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) => ThreeColumnBookView(
         myBook: myBookList[index],
-        onTapOption: () => onTapOption(),
+        onTapOption: (book) => onTapOption(book),
         onTapBook: (book) => onTapBook(book),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -120,7 +120,7 @@ class ThreeColumnGridView extends StatelessWidget {
 
 class BookListView extends StatelessWidget {
   final List<BookVO> myBookList;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
   final Function(BookVO) onTapBook;
 
   BookListView({
@@ -137,7 +137,7 @@ class BookListView extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) => BookListItemView(
         myBook: myBookList[index],
-        onTapOption: () => onTapOption(),
+        onTapOption: (book) => onTapOption(book),
         onTapBook: (book) => onTapBook(book),
       ),
     );
@@ -148,4 +148,10 @@ enum BookListLayout {
   LIST_VIEW,
   TWO_COLUMN_GRID_VIEW,
   THREE_COLUMN_GRID_VIEW,
+}
+
+enum BookSortOption {
+  RECENTLY_OPEN,
+  TITLE,
+  AUTHOR,
 }

@@ -4,7 +4,7 @@ import 'package:the_library/viewitems/two_column_book_view.dart';
 
 class TwoColumnGridView extends StatelessWidget {
   final List<BookVO> myBookList;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
   final Function(BookVO) onTapBook;
 
   TwoColumnGridView({
@@ -21,7 +21,7 @@ class TwoColumnGridView extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) => TwoColumnBookView(
         myBook: myBookList[index],
-        onTapOption: () => onTapOption(),
+        onTapOption: (book) => onTapOption(book),
         onTapBook: (book) => onTapBook(book),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

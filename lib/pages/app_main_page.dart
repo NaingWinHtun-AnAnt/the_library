@@ -36,6 +36,7 @@ class _AppMainPageState extends State<AppMainPage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.library_books_outlined,
+              key: Key("LIBRARY"),
             ),
             label: LIBRARY,
           ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class BookTextView extends StatelessWidget {
-  final String text;
+  final String? text;
 
   BookTextView({required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text?? "-",
       style: TextStyle(
         overflow: TextOverflow.ellipsis,
       ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:the_library/resources/colors.dart';
+import 'package:the_library/widgets/book_list_section_view.dart';
 
 class SortOptionSectionView extends StatelessWidget {
-  final int selectedSortValue;
-  final Function(int) onTapSortItem;
+  final BookSortOption selectedSortValue;
+  final Function(BookSortOption) onTapSortItem;
 
   SortOptionSectionView({
     required this.selectedSortValue,
@@ -29,19 +30,19 @@ class SortOptionSectionView extends StatelessWidget {
             ),
           ),
           SortOptionView(
-            value: 1,
+            value: BookSortOption.RECENTLY_OPEN,
             selectedValue: selectedSortValue,
             label: "Recently Open",
             onTapItem: (value) => onTapSortItem(value),
           ),
           SortOptionView(
-            value: 2,
+            value: BookSortOption.TITLE,
             selectedValue: selectedSortValue,
             label: "Title",
             onTapItem: (value) => onTapSortItem(value),
           ),
           SortOptionView(
-            value: 3,
+            value: BookSortOption.AUTHOR,
             selectedValue: selectedSortValue,
             label: "Author",
             onTapItem: (value) => onTapSortItem(value),
@@ -54,9 +55,9 @@ class SortOptionSectionView extends StatelessWidget {
 
 class SortOptionView extends StatelessWidget {
   final String label;
-  final int selectedValue;
-  final int value;
-  final Function(int) onTapItem;
+  final BookSortOption selectedValue;
+  final BookSortOption value;
+  final Function(BookSortOption) onTapItem;
 
   SortOptionView({
     required this.label,
@@ -72,7 +73,7 @@ class SortOptionView extends StatelessWidget {
         value: value,
         groupValue: selectedValue,
         onChanged: (selectedValue) =>
-            onTapItem(int.parse(selectedValue.toString())),
+            onTapItem(selectedValue as BookSortOption),
         activeColor: COLOR_PRIMARY,
       ),
       title: Text(label),

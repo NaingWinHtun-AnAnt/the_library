@@ -5,10 +5,10 @@ part 'pdf_vo.g.dart';
 @JsonSerializable()
 class PdfVO {
   @JsonKey(name: "isAvailable")
-  bool isAvailable;
+  bool? isAvailable;
 
   PdfVO({
-    required this.isAvailable,
+    this.isAvailable,
   });
 
   factory PdfVO.fromJson(Map<String, dynamic> json) => _$PdfVOFromJson(json);

@@ -7,17 +7,16 @@ part of 'book_list_by_list_name_response.dart';
 // **************************************************************************
 
 BookListByListNameResponse _$BookListByListNameResponseFromJson(
-    Map<String, dynamic> json) {
-  return BookListByListNameResponse(
-    status: json['status'] as String,
-    copyright: json['copyright'] as String,
-    num_Results: json['num_results'] as int,
-    lastModified: json['last_modified'] as String,
-    results: (json['results'] as List<dynamic>)
-        .map((e) => BookByListNameVO.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
+        Map<String, dynamic> json) =>
+    BookListByListNameResponse(
+      status: json['status'] as String?,
+      copyright: json['copyright'] as String?,
+      num_Results: json['num_results'] as int?,
+      lastModified: json['last_modified'] as String?,
+      results: json['results'] == null
+          ? null
+          : BookByCategoryVO.fromJson(json['results'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$BookListByListNameResponseToJson(
         BookListByListNameResponse instance) =>

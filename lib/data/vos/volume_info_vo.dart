@@ -9,7 +9,7 @@ part 'volume_info_vo.g.dart';
 @JsonSerializable()
 class VolumeInfoVO {
   @JsonKey(name: "title")
-  String title;
+  String? title;
 
   @JsonKey(name: "subtitle")
   String? subtitle;
@@ -66,25 +66,25 @@ class VolumeInfoVO {
   String? canonicalVolumeLink;
 
   VolumeInfoVO({
-    required this.title,
-    required this.subtitle,
-    required this.authors,
-    required this.publisher,
-    required this.publishedDate,
-    required this.description,
-    required this.industryIdentifiers,
-    required this.readingModes,
-    required this.pageCount,
-    required this.printType,
-    required this.maturityRating,
-    required this.allowAnonLogging,
-    required this.contentVersion,
-    required this.panelizationSummary,
-    required this.imageLinks,
-    required this.language,
-    required this.previewLink,
-    required this.infoLink,
-    required this.canonicalVolumeLink,
+    this.title,
+    this.subtitle,
+    this.authors,
+    this.publisher,
+    this.publishedDate,
+    this.description,
+    this.industryIdentifiers,
+    this.readingModes,
+    this.pageCount,
+    this.printType,
+    this.maturityRating,
+    this.allowAnonLogging,
+    this.contentVersion,
+    this.panelizationSummary,
+    this.imageLinks,
+    this.language,
+    this.previewLink,
+    this.infoLink,
+    this.canonicalVolumeLink,
   });
 
   factory VolumeInfoVO.fromJson(Map<String, dynamic> json) =>

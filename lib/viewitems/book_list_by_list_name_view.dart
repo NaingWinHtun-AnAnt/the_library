@@ -4,7 +4,7 @@ import 'package:the_library/resources/dimens.dart';
 import 'package:the_library/widgets/book_text_view.dart';
 
 class BookListByListNameView extends StatelessWidget {
-  final BookByListNameVO bookByListName;
+  final BookByListNameVO? bookByListName;
   final Function onTapBook;
 
   BookListByListNameView({
@@ -22,17 +22,16 @@ class BookListByListNameView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ImageView(
-              bookImage:
-                  "https://images.unsplash.com/photo-1621827979802-6d778e161b28?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80",
+              bookImage: bookByListName?.bookImage?? "-",
             ),
             SizedBox(
               height: MARGIN_SMALL,
             ),
             BookTextView(
-              text: bookByListName.displayName,
+              text: bookByListName?.title?? "-",
             ),
             BookTextView(
-              text: bookByListName.bookDetails[0].author,
+              text: bookByListName?.author?? "-",
             ),
           ],
         ),

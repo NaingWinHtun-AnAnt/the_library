@@ -43,6 +43,7 @@ class SortingControlSectionView extends StatelessWidget {
           child: Icon(
             Icons.list,
             color: COLOR_GREY,
+            key: Key("CHANGE_LAYOUT"),
           ),
         ),
       ],

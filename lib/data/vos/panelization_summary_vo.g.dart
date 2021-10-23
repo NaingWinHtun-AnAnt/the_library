@@ -7,12 +7,11 @@ part of 'panelization_summary_vo.dart';
 // **************************************************************************
 
 PanelizationSummaryVO _$PanelizationSummaryVOFromJson(
-    Map<String, dynamic> json) {
-  return PanelizationSummaryVO(
-    containsEpubBubbles: json['containsEpubBubbles'] as bool,
-    containsImageBubbles: json['containsImageBubbles'] as bool,
-  );
-}
+        Map<String, dynamic> json) =>
+    PanelizationSummaryVO(
+      containsEpubBubbles: json['containsEpubBubbles'] as bool?,
+      containsImageBubbles: json['containsImageBubbles'] as bool?,
+    );
 
 Map<String, dynamic> _$PanelizationSummaryVOToJson(
         PanelizationSummaryVO instance) =>

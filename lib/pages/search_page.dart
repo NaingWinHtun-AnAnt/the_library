@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:the_library/data/models/library_model.dart';
-import 'package:the_library/data/models/library_model_impl.dart';
+import 'package:provider/provider.dart';
+import 'package:the_library/blocs/search_bloc.dart';
 import 'package:the_library/data/vos/search_book_vo.dart';
 import 'package:the_library/resources/colors.dart';
 import 'package:the_library/resources/dimens.dart';
@@ -17,50 +15,50 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final LibraryModel _mLibraryModel = LibraryModelImpl();
-  List<SearchBookVO> _mSearchResultBook = [];
-  final _deBouncer = DeBouncer(milliseconds: 1000);
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: COLOR_WHITE,
-      body: SafeArea(
-        child: ListView(
-          children: [
-            Container(
-              padding: EdgeInsets.all(MARGIN_MEDIUM_3),
-              child: SearchTextView(
-                onTextChange: (text) => _deBouncer.run(() {
-                  _searchBooks(text);
-                  print(text);
-                }),
-              ),
-            ),
-            _mSearchResultBook.isEmpty
-                ? SearchSuggestionListView()
-                : Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: MARGIN_MEDIUM_2,
-                    ),
-                    child: SearchResultListView(
-                      searchResultBookList: _mSearchResultBook,
-                      onTapSearchResult: (book) =>
-                          _displayDownloadDialog(context),
-                    ),
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => SearchBloc(),
+      child: Scaffold(
+        backgroundColor: COLOR_WHITE,
+        body: SafeArea(
+          child: Selector<SearchBloc, List<SearchBookVO>?>(
+            selector: (BuildContext context, SearchBloc bloc) =>
+                bloc.mSearchResultBook,
+            builder: (BuildContext context,
+                    List<SearchBookVO>? searchResultBook, Widget? child) =>
+                ListView(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(MARGIN_MEDIUM_3),
+                  child: SearchTextView(
+                    onTextChange: (text) => _searchBooks(context, text),
+                    onTextSubmitted: (text) => _searchBooks(context, text),
                   ),
-          ],
+                ),
+                searchResultBook == null
+                    ? SearchSuggestionListView()
+                    : Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_2,
+                        ),
+                        child: SearchResultListView(
+                          searchResultBookList: searchResultBook,
+                          onTapSearchResult: (book) =>
+                              _displayDownloadDialog(context),
+                        ),
+                      ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  void _searchBooks(String text) {
-    _mLibraryModel.searchBook(text).then((value) {
-      setState(() {
-        _mSearchResultBook = value;
-      });
-    });
+  void _searchBooks(BuildContext context, String text) {
+    final SearchBloc bloc = Provider.of<SearchBloc>(context, listen: false);
+    bloc.onSearch(text);
   }
 
   void _displayDownloadDialog(BuildContext context) {
@@ -241,9 +239,11 @@ class SearchResultListView extends StatelessWidget {
 
 class SearchTextView extends StatelessWidget {
   final Function(String) onTextChange;
+  final Function(String) onTextSubmitted;
 
   SearchTextView({
     required this.onTextChange,
+    required this.onTextSubmitted,
   });
 
   @override
@@ -263,6 +263,7 @@ class SearchTextView extends StatelessWidget {
         Flexible(
           child: TextField(
             onChanged: (text) => onTextChange(text),
+            onSubmitted: (text) => onTextSubmitted(text),
             decoration: InputDecoration.collapsed(
               hintText: SEARCH_BAR_LABEL,
               hintStyle: TextStyle(
@@ -274,20 +275,5 @@ class SearchTextView extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class DeBouncer {
-  final int? milliseconds;
-  VoidCallback? action;
-  Timer? _timer;
-
-  DeBouncer({required this.milliseconds});
-
-  run(VoidCallback action) {
-    if (_timer != null) {
-      _timer!.cancel();
-    }
-    _timer = Timer(Duration(milliseconds: milliseconds!), action);
   }
 }

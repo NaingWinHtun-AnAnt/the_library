@@ -5,14 +5,14 @@ part 'industry_identifier_vo.g.dart';
 @JsonSerializable()
 class IndustryIdentifierVO {
   @JsonKey(name: "type")
-  String type;
+  String? type;
 
   @JsonKey(name: "identifier")
-  String identifier;
+  String? identifier;
 
   IndustryIdentifierVO({
-    required this.type,
-    required this.identifier,
+    this.type,
+    this.identifier,
   });
 
   factory IndustryIdentifierVO.fromJson(Map<String, dynamic> json) =>

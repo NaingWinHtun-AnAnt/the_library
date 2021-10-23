@@ -8,20 +8,23 @@ abstract class LibraryModel {
   /// from nyt
   void getBookList(String publishedDate);
 
-  void getBookListByListName(String bookListName);
+  void getBookListByListName(String date, String bookListName);
 
   /// from google
-  Future<List<SearchBookVO>> searchBook(String searchText);
+  Future<List<SearchBookVO>?>? searchBook(String searchText);
 
   /// save book if user click on that book
-  void saveMyBook(BookVO book);
+  void saveMyBook(BookVO? book);
 
   /// from database
   Stream<BookListResultVO?> getBookListFromDatabase(String publishedDate);
 
   Stream<List<BookByListNameVO>> getBookListByListNameFromDatabase(
+    String date,
     String bookListName,
   );
 
   Stream<List<BookVO>> getMyBookFromDatabase();
+
+  Future<BookVO?>? getBookDetailFromDatabase(String primaryIsbn13);
 }

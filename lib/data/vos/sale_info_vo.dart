@@ -5,18 +5,18 @@ part 'sale_info_vo.g.dart';
 @JsonSerializable()
 class SaleInfoVO {
   @JsonKey(name: "country")
-  String country;
+  String? country;
 
   @JsonKey(name: "saleability")
-  String saleAbility;
+  String? saleAbility;
 
   @JsonKey(name: "isEbook")
-  bool isEbook;
+  bool? isEbook;
 
   SaleInfoVO({
-    required this.country,
-    required this.saleAbility,
-    required this.isEbook,
+    this.country,
+    this.saleAbility,
+    this.isEbook,
   });
 
   factory SaleInfoVO.fromJson(Map<String, dynamic> json) =>

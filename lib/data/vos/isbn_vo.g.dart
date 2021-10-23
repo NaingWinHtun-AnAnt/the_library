@@ -17,8 +17,8 @@ class IsbnVOAdapter extends TypeAdapter<IsbnVO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return IsbnVO(
-      isbn10: fields[0] as String,
-      isbn13: fields[1] as String,
+      isbn10: fields[0] as String?,
+      isbn13: fields[1] as String?,
     );
   }
 
@@ -47,12 +47,10 @@ class IsbnVOAdapter extends TypeAdapter<IsbnVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-IsbnVO _$IsbnVOFromJson(Map<String, dynamic> json) {
-  return IsbnVO(
-    isbn10: json['isbn10'] as String,
-    isbn13: json['isbn13'] as String,
-  );
-}
+IsbnVO _$IsbnVOFromJson(Map<String, dynamic> json) => IsbnVO(
+      isbn10: json['isbn10'] as String?,
+      isbn13: json['isbn13'] as String?,
+    );
 
 Map<String, dynamic> _$IsbnVOToJson(IsbnVO instance) => <String, dynamic>{
       'isbn10': instance.isbn10,

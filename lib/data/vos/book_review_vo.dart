@@ -10,25 +10,25 @@ part 'book_review_vo.g.dart';
 class BookReviewVO {
   @HiveField(0)
   @JsonKey(name: "book_review_link")
-  String bookReviewLink;
+  String? bookReviewLink;
 
   @HiveField(1)
   @JsonKey(name: "first_chapter_link")
-  String firstChapterLink;
+  String? firstChapterLink;
 
   @HiveField(2)
   @JsonKey(name: "sunday_review_link")
-  String sundayReviewLink;
+  String? sundayReviewLink;
 
   @HiveField(3)
   @JsonKey(name: "article_chapter_link")
-  String articleChapterLink;
+  String? articleChapterLink;
 
   BookReviewVO({
-    required this.bookReviewLink,
-    required this.firstChapterLink,
-    required this.sundayReviewLink,
-    required this.articleChapterLink,
+    this.bookReviewLink,
+    this.firstChapterLink,
+    this.sundayReviewLink,
+    this.articleChapterLink,
   });
 
   factory BookReviewVO.fromJson(Map<String, dynamic> json) =>

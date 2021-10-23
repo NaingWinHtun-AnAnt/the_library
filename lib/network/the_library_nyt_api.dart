@@ -18,9 +18,10 @@ abstract class TheLibraryNYTApi {
     @Query(PARAM_PUBLISHED_DATE) String publishedDate,
   );
 
-  @GET(END_POINT_GET_BOOK_BY_LIST_NAME)
+  @GET('$END_POINT_GET_BOOK_BY_LIST_NAME/{date}/{list}.json')
   Future<BookListByListNameResponse> getBookListByListName(
     @Query(PARAM_API_KEY) String apiKey,
-    @Query(PARAM_BOOK_LIST_ENCODED_NAME) String bookListName,
+    @Path("date") String date,
+    @Path("list") String bookListName,
   );
 }

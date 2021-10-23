@@ -8,7 +8,7 @@ import 'package:the_library/widgets/book_type_text_view.dart';
 
 class TwoColumnBookView extends StatelessWidget {
   final BookVO myBook;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
   final Function(BookVO) onTapBook;
 
   TwoColumnBookView({
@@ -26,8 +26,9 @@ class TwoColumnBookView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageAndOptionSectionView(myBook: myBook,
-              onTapOption: () => onTapOption(),
+            ImageAndOptionSectionView(
+              myBook: myBook,
+              onTapOption: (book) => onTapOption(book),
             ),
             SizedBox(
               height: MARGIN_SMALL,
@@ -47,7 +48,7 @@ class TwoColumnBookView extends StatelessWidget {
 
 class ImageAndOptionSectionView extends StatelessWidget {
   final BookVO myBook;
-  final Function onTapOption;
+  final Function(BookVO) onTapOption;
 
   ImageAndOptionSectionView({
     required this.myBook,
@@ -67,7 +68,7 @@ class ImageAndOptionSectionView extends StatelessWidget {
                 BOOK_COVER_IMAGE_RADIUS,
               ),
               child: Image.network(
-                myBook.bookImage,
+                myBook.bookImage ?? "-",
                 width: TWO_COLUMN_BOOK_IMAGE_HEIGHT,
                 height: TWO_COLUMN_BOOK_IMAGE_HEIGHT,
                 fit: BoxFit.cover,
@@ -76,7 +77,7 @@ class ImageAndOptionSectionView extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () => onTapOption(),
+                onTap: () => onTapOption(myBook),
                 child: Container(
                   margin: EdgeInsets.all(
                     MARGIN_MEDIUM,

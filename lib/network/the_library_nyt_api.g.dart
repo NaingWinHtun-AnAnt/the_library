@@ -22,10 +22,11 @@ class _TheLibraryNYTApi implements TheLibraryNYTApi {
       r'api-key': apiKey,
       r'published_date': publishedDate
     };
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<BookListResponse>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, 'lists/overview.json',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -35,17 +36,15 @@ class _TheLibraryNYTApi implements TheLibraryNYTApi {
 
   @override
   Future<BookListByListNameResponse> getBookListByListName(
-      apiKey, bookListName) async {
+      apiKey, date, bookListName) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'api-key': apiKey,
-      r'list': bookListName
-    };
+    final queryParameters = <String, dynamic>{r'api-key': apiKey};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<BookListByListNameResponse>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, 'lists.json',
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'lists/$date/$bookListName.json',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = BookListByListNameResponse.fromJson(_result.data!);
