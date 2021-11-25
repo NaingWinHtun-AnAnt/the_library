@@ -22,11 +22,43 @@ void main() {
 
     /// shelf test
     test("Shelf Test", () {
+      shelfModel.createNewShelf("Shelf Name");
       expect(
         shelfModel.getShelfById("shelfId"),
-        emits(getMockShelf().first),
+        emits(getShelf()),
       );
     });
 
+    /// shelf create
+    test("Create Shelf", () {
+      shelfModel.createNewShelf("Shelf Name");
+
+      expect(
+        shelfModel.getShelfById("shelfId")?.map((event) => event?.name),
+        emits("Shelf Name"),
+      );
+    });
+
+    /// update shelf
+    test("Update Shelf", () {
+      shelfModel.createNewShelf("Shelf Name");
+      shelfModel.renameShelf("shelfId", "Rename Shelf");
+
+      expect(
+        shelfModel.getShelfById("shelfId")?.map((event) => event?.name),
+        emits("Rename Shelf"),
+      );
+    });
+
+    /// remove shelf
+    test("Delete Shelf", () {
+      shelfModel.createNewShelf("Shelf Name");
+      shelfModel.deleteShelf("shelfId");
+
+      expect(
+        shelfModel.getShelfById("shelfId")?.map((event) => event?.name),
+        emits(null),
+      );
+    });
   });
 }

@@ -231,3 +231,11 @@ List<ShelfVO> getMockShelf() {
     ),
   ];
 }
+
+ShelfVO getShelf() {
+  return ShelfVO(
+    id: "id",
+    name: "Shelf Name",
+    books: getMyMockBook(),
+  );
+}

@@ -27,5 +27,11 @@ void main() {
         getMyMockBook(),
       );
     });
+
+    /// save book to my book
+    test("On Tap Book", () {
+      homeBloc?.onTapBook(getMyMockBook().first);
+      expect(homeBloc?.myBookList?.contains(getMyMockBook().first), true);
+    });
   });
 }

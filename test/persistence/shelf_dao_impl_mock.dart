@@ -9,17 +9,19 @@ class ShelfDaoImplMock extends ShelfDao {
 
   @override
   void createNewShelf(ShelfVO shelf) {
-    /// no need to implement
+    final _mShelf = ShelfVO(id: "id", name: shelf.name, books: shelf.books);
+    shelfMap[_mShelf.id] = _mShelf;
   }
 
   @override
   void deleteShelf(String shelfId) {
-    /// no need to implement
+    shelfMap.remove("id");
   }
 
   @override
   ShelfVO? getShelfById(String shelfId) {
-    return getMockShelf().first;
+    return shelfMap["id"];
+    // return getMockShelf().first;
   }
 
   @override
@@ -44,26 +46,27 @@ class ShelfDaoImplMock extends ShelfDao {
 
   @override
   Stream<ShelfVO?>? getShelfRenameStream(String shelfId, String shelfName) {
-    return Stream.value(getMockShelf().first);
+    shelfMap["id"] = ShelfVO(id: "id", name: "Rename Shelf", books: []);
+    return Stream.value(getShelfById(shelfId));
   }
 
   @override
   Stream<ShelfVO?>? getShelfStream(String shelfId) {
-    return Stream.value(getMockShelf().first);
+    return Stream.value(getShelfById(shelfId));
   }
 
   @override
   ShelfVO? removeBookFromShelf(String shelfId, BookVO? book) {
-    return getMockShelf().first;
+    return getShelfById(shelfId);
   }
 
   @override
   ShelfVO? renameShelf(String shelfId, String shelfName) {
-    return getMockShelf().first;
+    return shelfMap[shelfId];
   }
 
   @override
   ShelfVO? addBookToShelf(String shelfId, BookVO? book) {
-    return getMockShelf().first;
+    return getShelfById(shelfId);
   }
 }
